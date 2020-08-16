@@ -1,4 +1,4 @@
 Flask
 gunicorn
 line-bot-sdk
-pya3rd
+pya3rt
