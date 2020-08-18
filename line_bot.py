@@ -13,7 +13,7 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent,TextMessage,TextSendMessage
 import pya3rt
 
-import json, requests
+import re, json, requests
 
 app = Flask(__name__)
 
@@ -59,6 +59,11 @@ def handle_message(event):
   # もし機種名があれば、取り出す
 
   # 5216000&model=SR7500'
+
+  error_code_regex = re.compile(r'\d{7}')
+  mo = error_code_regex.search(event.message.text)
+
+  print(mo.group())
 
   unit, title, contents, detail, recovery = get_error_detail("SR7500","5216000")
   ai_message = "Unit : " + unit \
