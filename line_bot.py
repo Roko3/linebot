@@ -87,12 +87,12 @@ def handle_message(event):
                     + "\nError code : " + error_code \
                     + "\n\nUnit : " + unit \
                     + "\n\nTitle : " + title \
-                    + "\n\nContents : " + contents \
-                    + "\n\nDetail : " + detail \
-                    + "\n\nRecovery : " + recovery
+                    + "\n\nContents : " + contents.replace(':', ':\n').replace('-', '\n-') \
+                    + "\n\nDetail : " + detail.replace(':', ':\n').replace('-', '\n-') \
+                    + "\n\nRecovery : " + recovery.replace(':', ':\n').replace('-', '\n-')
 
     else:
-      ai_message = "not find the error code : " + error_code
+      ai_message = "Not find the error code : " + error_code
 
   else:
     ai_message = "Please give me error code and machine model\n \
