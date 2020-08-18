@@ -80,16 +80,23 @@ def handle_message(event):
     # find error code
     unit, title, contents, detail, recovery = get_error_detail(machine_model,error_code)
 
-    ai_message = "Machine model :  " + machine_model + "Error code : " + error_code \
-                  + "\n\nUnit : " + unit \
-                  + "\n\nTitle : " + title \
-                  + "\n\nContents : " + contents \
-                  + "\n\nDetail : " + detail \
-                  + "\n\nRecovery : " + recovery
+    if unit:
+
+      ai_message = "Machine model :  " + machine_model \
+                    + "\nError code : " + error_code \
+                    + "\n\nUnit : " + unit \
+                    + "\n\nTitle : " + title \
+                    + "\n\nContents : " + contents \
+                    + "\n\nDetail : " + detail \
+                    + "\n\nRecovery : " + recovery
+
+    else:
+      ai_message = "not find the error code : " + error_code
 
   else:
     ai_message = "Please give me error code and machine model\n \
-                  (ex. 'SR, 5216000', 'tell me 5216000 VS"
+                  ex.'SR, 5216000'\n \
+                  'tell me 5216000 VS"
 
     #ai_message = talk_ai(send_message)
 
@@ -114,6 +121,8 @@ def talk_ai(word):
 # get error code detail from HOTS-JP site
 #******************************************************
 def get_error_detail(machine_model, error_code):
+      
+  unit, title, contents, detail, recovery = None
 
   # URLをセットする
   url = 'https://app.hitachi-omron-ts.com/api/ErrorCodes00/ecs?code=' + error_code + '&model=' + machine_model
@@ -128,11 +137,12 @@ def get_error_detail(machine_model, error_code):
   # データを取り出す
   data = json.loads(response.text)
 
-  unit = data[0]["Unit"]
-  title = data[0]["Title"]
-  contents = data[0]["Contents"]
-  detail = data[0]["Detail"]
-  recovery = data[0]["Recovery"]
+  if data:
+    unit = data[0]["Unit"]
+    title = data[0]["Title"]
+    contents = data[0]["Contents"]
+    detail = data[0]["Detail"]
+    recovery = data[0]["Recovery"]
 
   return unit, title, contents, detail, recovery
 
