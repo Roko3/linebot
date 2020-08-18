@@ -48,7 +48,6 @@ def callback():
 @handler.add(MessageEvent,message=TextMessage)
 def handle_message(event):
     
-  print(event.source.userId)
   print(event.message.text)
 
   ai_message = talk_ai(event.message.text)
