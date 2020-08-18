@@ -18,8 +18,9 @@ import re, json, requests
 app = Flask(__name__)
 
 # Line Bot APIのインスタンス
-linebot_api = LineBotApi('+FD33MxyHhY96+T7LQB9Wv446bC62FBWXwsFV62oa2bV6T/HS7FnxX\
-6b8iuzJr7HS+5318y2VtugkGCfPcp8ewJ5VIMpB6xNlUaGbw4T/RCFMSjuMv4QbccRcbpS+pjUTyHnYTceaNSocKo5faP3cgdB04t89/1O/w1cDnyilFU=')
+linebot_api = LineBotApi('wBrEz3r02T2Oe3syQRscSmZcjmnp261gmaVYGyKGMzFNeBeF4M7kNLx\
+                          /uFMkLVSAFC0RHUKphM4VComJ9TtwRsh4Kh1Sn2SNbWInMmr6RWqzbs\
+                          mRtTGP++1lCYnxj+cfCIEZ9ZOEyvqrTVWeD9mx3gdB04t89/1O/w1cDnyilFU=')
 
 handler = WebhookHandler('c7e1bc08e54a0ff52932a9cc3dd25a51')  # 送られてきたメッセージを扱うハンドラ
 
