@@ -60,7 +60,8 @@ def handle_message(event):
 
   # 5216000&model=SR7500'
 
-  error_code_regex = re.compile(r'\d{7}')
+  error_code_regex = re.compile(r'["0-9"A-Fa-f]{7}')
+
   mo = error_code_regex.search(event.message.text)
 
   print(mo.group())
