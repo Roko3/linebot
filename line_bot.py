@@ -87,9 +87,9 @@ def handle_message(event):
                     + "\nError code : " + error_code \
                     + "\n\nUnit : " + unit \
                     + "\n\nTitle : " + title \
-                    + "\n\nContents : " + contents.replace('\n', ':\n\n') \
-                    + "\n\nDetail : " + detail.replace('\n', ':\n\n') \
-                    + "\n\nRecovery : " + recovery.replace('\n', ':\n\n') 
+                    + "\n\nContents : " + contents.replace('\n', '\n\n').replace(':', ':\n').replace('：', ':\n')  \
+                    + "\n\nDetail : " + detail.replace('\n', '\n\n').replace(':', ':\n').replace('：', ':\n') \
+                    + "\n\nRecovery : " + recovery.replace('\n', '\n\n').replace(':', ':\n').replace('：', ':\n') 
 
     else:
       ai_message = "Not find the error code : " + error_code
