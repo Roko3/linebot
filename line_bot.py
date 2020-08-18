@@ -88,7 +88,10 @@ def handle_message(event):
                   + "\n\nRecovery : " + recovery
 
   else:
-    ai_message = talk_ai(send_message)
+    ai_message = "Please give me error code and machine model\n \
+                  (ex. 'SR, 5216000', 'tell me 5216000 VS"
+
+    #ai_message = talk_ai(send_message)
 
   linebot_api.reply_message(event.reply_token, TextSendMessage(text = ai_message))
 
