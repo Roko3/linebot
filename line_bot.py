@@ -68,11 +68,11 @@ def handle_message(event):
   if mo:                          # 検索文字があれば
     error_code = mo.group()       # 検索文字を取り出す
 
-    if send_message.find('SR') or send_message.find('sr'):
+    if 'SR' in send_message or 'sr' in send_message:
       machine_model = 'SR7500'
-    elif send_message.find('VS') or send_message.find('vs'):
+    elif 'VS' in send_message or 'vs' in send_message:
       machine_model = 'VS-ATM'
-    elif send_message.find('TCR') or send_message.find('tcr'):
+    elif 'TCR' in send_message or 'tcr' in send_message:
       machine_model = 'TCR'
     else:
       machine_model = 'SR7500'
