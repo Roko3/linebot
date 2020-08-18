@@ -53,28 +53,42 @@ def callback():
 @handler.add(MessageEvent,message=TextMessage)
 def handle_message(event):
     
-  print(event.message.text)   # 送られてきたメッセージ
+  print(event.message.text)   
 
   # 7桁の数字を探す
   # もし機種名があれば、取り出す
 
   # 5216000&model=SR7500'
 
-  error_code_regex = re.compile(r'["0-9"A-Fa-f]{7}')
-  mo = error_code_regex.search(event.message.text)
+  send_message = event.message.text  # 送られてきたメッセージ
 
-  if mo:
-    error_code = mo.group()
+  error_code_regex = re.compile(r'["0-9"A-Fa-f]{7}')    # 0-9,A-F,a-fで入力された７桁の文字列を探す
+  mo = error_code_regex.search(send_message)            # 検索する
+
+  if mo:                          # 検索文字があれば
+    error_code = mo.group()       # 検索文字を取り出す
+
+    if send_message.find('SR') or send_message.find('sr'):
+      machine_model = 'SR7500'
+    elif send_message.find('VS') or send_message.find('vs'):
+      machine_model = 'VS-ATM'
+    elif send_message.find('TCR') or send_message.find('tcr'):
+      machine_model = 'TCR'
+    else:
+      machine_model = 'SR7500'
     
-    unit, title, contents, detail, recovery = get_error_detail("SR7500",error_code)
-    ai_message = "Unit : " + unit \
-                  + "\nTitle : " + title \
-                  + "\nContents : " + contents \
-                  + "\nDetail : " + detail \
-                  + "\nRecovery : " + recovery
+    # find error code
+    unit, title, contents, detail, recovery = get_error_detail(machine_model,error_code)
+
+    ai_message = "Machine model :  " + machine_model + "Error code : " + error_code \
+                  + "\n\nUnit : " + unit \
+                  + "\n\nTitle : " + title \
+                  + "\n\nContents : " + contents \
+                  + "\n\nDetail : " + detail \
+                  + "\n\nRecovery : " + recovery
 
   else:
-    ai_message = talk_ai(event.message.text)
+    ai_message = talk_ai(send_message)
 
   linebot_api.reply_message(event.reply_token, TextSendMessage(text = ai_message))
 
