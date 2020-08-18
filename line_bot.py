@@ -63,6 +63,9 @@ def handle_message(event):
   unit, title, contents, detail, recovery = get_error_detail("SR7500","5216000")
   ai_message = "Unit : " + unit \
                 + "\nTitle : " + title
+                + "\nContents : " + contents
+                + "\nDetail : " + detail
+                + "\nRecovery : " + recovery
 
   #ai_message = talk_ai(event.message.text)
 
