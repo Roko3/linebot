@@ -13,6 +13,8 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent,TextMessage,TextSendMessage
 import pya3rt
 
+import json, requests
+
 app = Flask(__name__)
 
 # Line Bot APIのインスタンス
@@ -49,7 +51,6 @@ def callback():
 def handle_message(event):
     
   print(event.message.text)
-
   ai_message = talk_ai(event.message.text)
 
   linebot_api.reply_message(event.reply_token, TextSendMessage(text = ai_message))
@@ -59,9 +60,38 @@ def talk_ai(word):
   client = pya3rt.TalkClient(apikey)
   reply_message=client.talk(word)
 
+  get_error_detail("CRM","12345")
+
   return reply_message['results'][0]['reply']
+
+##*****************************************************
+# get error code detail from HOTS-JP site
+#******************************************************
+def get_error_detail(machine_model, error_code):
+
+  # URLをセットする
+  url = 'https://app.hitachi-omron-ts.com/api/ErrorCodes00/ecs?code=5216000&model=SR7500'
+
+  # Web-APIをアクセスする
+  response = requests.get(url)
+  print(response)
+  # <Response [200]>
+  # エラーをチェックする（例外が発生しなければ正常）
+  response.raise_for_status()
+
+  print(response.text)
+
+  # データを取り出す
+  data = json.loads(response.text)
+
+  Contents = data[0]["Contents"]
+  print(data[0]["Model"])
+
+  print(Contents)
+
+  #return unit, title, guide_for_operator, error_description, detail_description
+  return
 
 
 if __name__ == '__main__':
   app.run()
-
