@@ -47,22 +47,41 @@ def callback():
 
   return 'OK'
 
+##*****************************************************
+# mesaage handler
+#******************************************************
 @handler.add(MessageEvent,message=TextMessage)
 def handle_message(event):
     
-  print(event.message.text)
-  ai_message = talk_ai(event.message.text)
+  print(event.message.text)   # 送られてきたメッセージ
+
+  # 7桁の数字を探す
+  # もし機種名があれば、取り出す
+
+  # 5216000&model=SR7500'
+
+  unit, title, contents, detail, recovery = get_error_detail("SR7500","5216000")
+  ai_message = "Unit : " + unit \
+                + "\nTitle : " + title
+
+  #ai_message = talk_ai(event.message.text)
 
   linebot_api.reply_message(event.reply_token, TextSendMessage(text = ai_message))
 
+
+
+##*****************************************************
+# responsed by AI
+#******************************************************
 def talk_ai(word):
+      
   apikey = "DZZRDEzj6wXxRkI6CZB2ziJz69TcOR6h"
   client = pya3rt.TalkClient(apikey)
   reply_message=client.talk(word)
 
-  get_error_detail("CRM","12345")
-
   return reply_message['results'][0]['reply']
+
+
 
 ##*****************************************************
 # get error code detail from HOTS-JP site
@@ -70,27 +89,26 @@ def talk_ai(word):
 def get_error_detail(machine_model, error_code):
 
   # URLをセットする
-  url = 'https://app.hitachi-omron-ts.com/api/ErrorCodes00/ecs?code=5216000&model=SR7500'
+  url = 'https://app.hitachi-omron-ts.com/api/ErrorCodes00/ecs?code=' + error_code + '&model=' + machine_model
 
   # Web-APIをアクセスする
   response = requests.get(url)
-  print(response)
+
   # <Response [200]>
   # エラーをチェックする（例外が発生しなければ正常）
   response.raise_for_status()
 
-  print(response.text)
-
   # データを取り出す
   data = json.loads(response.text)
 
-  Contents = data[0]["Contents"]
-  print(data[0]["Model"])
+  unit = data[0]["Unit"]
+  title = data[0]["Title"]
+  contents = data[0]["Contents"]
+  detail = data[0]["Detail"]
+  recovery = data[0]["Recovery"]
 
-  print(Contents)
+  return unit, title, contents, detail, recovery
 
-  #return unit, title, guide_for_operator, error_description, detail_description
-  return
 
 
 if __name__ == '__main__':
