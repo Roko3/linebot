@@ -122,7 +122,7 @@ def talk_ai(word):
 #******************************************************
 def get_error_detail(machine_model, error_code):
       
-  unit, title, contents, detail, recovery = None
+  unit = title = contents = detail = recovery = None
 
   # URLをセットする
   url = 'https://app.hitachi-omron-ts.com/api/ErrorCodes00/ecs?code=' + error_code + '&model=' + machine_model
