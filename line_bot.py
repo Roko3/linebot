@@ -61,19 +61,20 @@ def handle_message(event):
   # 5216000&model=SR7500'
 
   error_code_regex = re.compile(r'["0-9"A-Fa-f]{7}')
-
   mo = error_code_regex.search(event.message.text)
 
-  print(mo.group())
+  if mo:
+    error_code = mo.group()
+    
+    unit, title, contents, detail, recovery = get_error_detail("SR7500",error_code)
+    ai_message = "Unit : " + unit \
+                  + "\nTitle : " + title \
+                  + "\nContents : " + contents \
+                  + "\nDetail : " + detail \
+                  + "\nRecovery : " + recovery
 
-  unit, title, contents, detail, recovery = get_error_detail("SR7500","5216000")
-  ai_message = "Unit : " + unit \
-                + "\nTitle : " + title \
-                + "\nContents : " + contents \
-                + "\nDetail : " + detail \
-                + "\nRecovery : " + recovery
-
-  #ai_message = talk_ai(event.message.text)
+  else:
+    ai_message = talk_ai(event.message.text)
 
   linebot_api.reply_message(event.reply_token, TextSendMessage(text = ai_message))
 
