@@ -53,14 +53,10 @@ def callback():
 def handle_message(event):
     
   print(event.message.text)   
-
+  
   # 7桁の数字を探す
-  # もし機種名があれば、取り出す
-
-  # 5216000&model=SR7500'
-
   send_message = event.message.text  # 送られてきたメッセージ
-
+  # もし機種名があれば、取り出す
   error_code_regex = re.compile(r'["0-9"A-Fa-f]{7}')    # 0-9,A-F,a-fで入力された７桁の文字列を探す
   mo = error_code_regex.search(send_message)            # 検索する
 
