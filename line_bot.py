@@ -77,39 +77,32 @@ def handle_message(event):
 
     if unit:
 
-      ai_message = "Machine model :  " + machine_model \
-                    + "\nError code : " + error_code \
-                    + "\n\nUnit : " + unit \
-                    + "\n\nTitle : " + title \
-                    + "\n\nContents : " + contents.replace('\n', '\n\n').replace(':', ':\n').replace('：', ':\n')  \
-                    + "\n\nDetail : " + detail.replace('\n', '\n\n').replace(':', ':\n').replace('：', ':\n') \
-                    + "\n\nRecovery : " + recovery.replace('\n', '\n\n').replace(':', ':\n').replace('：', ':\n') 
+      reply1 = "Machine model :  " + machine_model \
+                    + "\nError code : " + error_code
+
+      reply2 = "Unit : " + unit \
+                    + "\nTitle : " + title
+
+      reply3 = "Contents : " + contents.replace('\n', '\n\n').replace(':', ':\n').replace('：', ':\n')
+      reply4 = "Detail : " + detail.replace('\n', '\n\n').replace(':', ':\n').replace('：', ':\n')
+      reply5 = "Recovery : " + recovery.replace('\n', '\n\n').replace(':', ':\n').replace('：', ':\n') 
+
+      linebot_api.reply_message(event.reply_token, [
+                                        TextSendMessage(text = reply1),
+                                        TextSendMessage(text = reply2),
+                                        TextSendMessage(text = reply3),
+                                        TextSendMessage(text = reply4),
+                                        TextSendMessage(text = reply5),
+                                ])
 
     else:
-      ai_message = "Not find the error code : " + error_code
+      reply1 = "Not find the error code : " + error_code
+      linebot_api.reply_message(event.reply_token, TextSendMessage(text = reply1))
 
   else:
-    ai_message = "Please give me error code and machine model\n \
-                  ex.'SR, 5216000'\n \
-                  'tell me 5216000 VS"
+    reply1 = "Please give me error code and machine model\n ex.SR, 5216000,tell me 5216000 VS"
 
-    #ai_message = talk_ai(send_message)
-
-  linebot_api.reply_message(event.reply_token, TextSendMessage(text = ai_message))
-
-
-
-##*****************************************************
-# responsed by AI
-#******************************************************
-def talk_ai(word):
-      
-  apikey = "DZZRDEzj6wXxRkI6CZB2ziJz69TcOR6h"
-  client = pya3rt.TalkClient(apikey)
-  reply_message=client.talk(word)
-
-  return reply_message['results'][0]['reply']
-
+    linebot_api.reply_message(event.reply_token, TextSendMessage(text = reply1))
 
 
 ##*****************************************************
