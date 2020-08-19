@@ -77,15 +77,15 @@ def handle_message(event):
 
     if unit:
 
-      reply1 = "Machine model :  " + machine_model \
+      reply1 = "\uDBC0\uDC39 Machine model :  " + machine_model \
                     + "\nError code : " + error_code
 
-      reply2 = "Unit : " + unit \
+      reply2 = "\uDBC0\uDC39 Unit : " + unit \
                     + "\nTitle : " + title
 
-      reply3 = "Contents : " + contents.replace('\n', '\n\n').replace(':', ':\n').replace('：', ':\n')
-      reply4 = "Detail : " + detail.replace('\n', '\n\n').replace(':', ':\n').replace('：', ':\n')
-      reply5 = "Recovery : " + recovery.replace('\n', '\n\n').replace(':', ':\n').replace('：', ':\n') 
+      reply3 = "\uDBC0\uDC39 Contents\n " + contents.replace('\n', '\n\n')
+      reply4 = "\uDBC0\uDC39 Detail\n" + detail.replace('\n', '\n\n')
+      reply5 = "\uDBC0\uDC39 Recovery\n" + recovery.replace('\n', '\n\n')
 
       linebot_api.reply_message(event.reply_token, [
                                         TextSendMessage(text = reply1),
